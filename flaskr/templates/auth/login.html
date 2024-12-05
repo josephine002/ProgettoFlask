@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Log In{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+{% if g.user %}
+  {% if g.user['role'] == 'fisioterapista' %}
+    <script>
+      window.location.href = "{{ url_for('fisio.index') }}";
+    </script>
+  {% elif g.user['role'] == 'paziente' %}
+    <script>
+      window.location.href = "{{ url_for('paziente.index') }}";
+    </script>
+  {% endif %}
+{% else %}
+  <form method="post">
+    <label for="username">Username</label>
+    <input name="username" id="username" required>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required>
+    <input type="submit" value="Log In">
+  </form>
+{% endif %}
+{% endblock %}

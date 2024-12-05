@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Pazienti{% endblock %}</h1>
+  {% if g.user %}
+<a class="action" href="{{ url_for('fisio.create_paziente') }}">Nuovo Paziente</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Data di Nascita</th>
+            <th>Genere</th>
+            <th>Motivo Visita</th>
+            <th>Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for paziente in pazienti %}
+        <tr>
+            <td>{{ paziente['username'] }}</td>
+            <td>{{ paziente['Data_di_nascita'] }}</td>
+            <td>{{ paziente['genere'] }}</td>
+            <td>{{ paziente['motivo_visita'] }}</td>
+            <td>
+                <a href="{{ url_for('fisio.update_paziente', id=paziente['ID_paziente']) }}">Visualizza</a>
+                <a href="{{ url_for('fisio.update_paziente', id=paziente['ID_paziente']) }}">Modifica</a>
+                <form action="{{ url_for('fisio.delete_paziente', id=paziente['ID_paziente']) }}" method="post" style="display: inline;">
+                    <input class="danger" type="submit" value="Elimina" onclick="return confirm('Sei sicuro di voler eliminare questo paziente?');">
+                </form>            
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+{% for paziente in pazienti %}
+<article class="paziente">
+    <header>
+        <div>
+            <h1>{{ paziente['username'] }}</h1>
+            <div class="about">Data di nascita: {{ paziente['Data_di_nascita'] }}</div>
+            <div class="about">Genere: {{ paziente['genere'] }}</div>
+            <div class="about">Motivo della visita: {{ paziente['motivo_visita'] }}</div>
+        </div>
+        {% if g.user['id'] == paziente['ID_FIsio'] %}
+            <a class="action" href="{{ url_for('fisio.update_paziente', id=paziente['ID_paziente']) }}">Modifica</a>
+            <form action="{{ url_for('fisio.delete_paziente', id=paziente['ID_paziente']) }}" method="post"
+            style="display: inline;">
+                <input class="danger" type="submit" value="Elimina"
+                onclick="return confirm('Sei sicuro di voler eliminare questo paziente?');">
+            </form>
+        {% endif %}   
+    </header>
+</article>
+<hr>
+{% endfor %}

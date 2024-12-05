@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Esercizi{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <h2>Lista Esercizi</h2>
+  <ul>
+    {% for esercizio in esercizi %}
+      <li><a href="{{ esercizio.link }}" target="_blank">{{ esercizio.nome }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

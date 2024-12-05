@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Nuovo Paziente{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="username">Nome Utente</label>
+    <input name="username" id="username" value="{{ request.form['username'] }}" required>
+
+    <label for="data_nascita">Data di Nascita</label>
+    <input type="date" name="data_nascita" id="data_nascita" value="{{ request.form['data_nascita'] }}" required>
+
+    <label for="genere">Genere</label>
+    <select name="genere" id="genere" required>
+      <option value="">-- Seleziona --</option>
+      <option value="Maschio" {% if request.form['genere'] == 'Maschio' %}selected{% endif %}>Maschio</option>
+      <option value="Femmina" {% if request.form['genere'] == 'Femmina' %}selected{% endif %}>Femmina</option>
+      <option value="Altro" {% if request.form['genere'] == 'Altro' %}selected{% endif %}>Altro</option>
+    </select>
+
+    <label for="motivo_visita">Motivo della Visita</label>
+    <textarea name="motivo_visita" id="motivo_visita" required>{{ request.form['motivo_visita'] }}</textarea>
+
+    <input type="submit" value="Salva">
+  </form>
+{% endblock %}
